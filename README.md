@@ -1,35 +1,4 @@
-# Multilingual Support - Test Cases & Acceptance Criteria
-
-## Acceptance Criteria
-
-### AC-1: Detection Order Sequence
-- **Given** multilingual is enabled with detection order `["query", "device", "default"]`
-- **When** a user accesses the application
-- **Then** system must check query parameters first
-- **And** only proceed to device detection if query fails
-- **And** only proceed to default if both query and device fail
-
-### AC-2: Default Only Detection
-- **Given** detection order is configured as `["default"]`
-- **When** a user accesses the application
-- **Then** system must use default locale immediately
-- **And** skip query and device detection entirely
-
-### AC-3: Empty Detection Order
-- **Given** detection order is empty array `[]`
-- **When** a user accesses the application
-- **Then** system should behave as multilingual disabled
-- **And** always use English locale regardless of other settings
-
-### AC-4: Early Termination on Success
-- **Given** detection order `["query", "device", "default"]`
-- **When** query parameter provides a valid supported locale
-- **Then** system should apply the query locale immediately
-- **And** NOT proceed to check device or default sources
-
----
-
-## Test Cases - Focused on English, Spanish, French Variants
+# Multilingual Support - Test Cases 
 
 ### TC-1: Query First Priority (Successful)
 **Configuration:**
