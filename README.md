@@ -1,1 +1,264 @@
-# kyc-multilingual-testcases
+# Multilingual Support - Test Cases & Acceptance Criteria
+
+## Acceptance Criteria
+
+### AC-1: Detection Order Sequence
+- **Given** multilingual is enabled with detection order `["query", "device", "default"]`
+- **When** a user accesses the application
+- **Then** system must check query parameters first
+- **And** only proceed to device detection if query fails
+- **And** only proceed to default if both query and device fail
+
+### AC-2: Default Only Detection
+- **Given** detection order is configured as `["default"]`
+- **When** a user accesses the application
+- **Then** system must use default locale immediately
+- **And** skip query and device detection entirely
+
+### AC-3: Empty Detection Order
+- **Given** detection order is empty array `[]`
+- **When** a user accesses the application
+- **Then** system should behave as multilingual disabled
+- **And** always use English locale regardless of other settings
+
+### AC-4: Early Termination on Success
+- **Given** detection order `["query", "device", "default"]`
+- **When** query parameter provides a valid supported locale
+- **Then** system should apply the query locale immediately
+- **And** NOT proceed to check device or default sources
+
+---
+
+## Test Cases - Focused on English, Spanish, French Variants
+
+### TC-1: Query First Priority (Successful)
+**Configuration:**
+```json
+{"enabled": true, "default": "fr", "supported": ["es-ES", "en", "fr"], "detectionOrder": ["query", "device", "default"]}
+```
+
+**Test Steps:**
+1. Set browser language to `fr-FR` (valid)
+2. Access application with `?locale=es-ES` (valid)
+3. Verify application uses Spanish (Spain) locale
+
+**Expected Result:** Query parameter takes priority, device detection skipped
+
+### TC-2: Query First Priority (Failed) → Device Fallback
+**Configuration:**
+```json
+{"enabled": true, "default": "en", "supported": ["es", "fr", "en"], "detectionOrder": ["query", "device", "default"]}
+```
+
+**Test Steps:**
+1. Set browser language to `fr-FR` (valid - root supported)
+2. Access application with `?locale=de-DE` (invalid - not supported)
+3. Verify application uses French (root) locale
+
+**Expected Result:** Query fails, device detection used, default skipped
+
+### TC-3: Query & Device Failed → Default Applied
+**Configuration:**
+```json
+{"enabled": true, "default": "es", "supported": ["es", "en"], "detectionOrder": ["query", "device", "default"]}
+```
+
+**Test Steps:**
+1. Set browser language to `fr-FR` (invalid - root not supported)
+2. Access application with `?locale=fr-FR` (invalid - root not supported)
+3. Verify application uses Spanish locale
+
+**Expected Result:** Both query and device fail, default applied
+
+### TC-4: Device First Priority
+**Configuration:**
+```json
+{"enabled": true, "default": "en", "supported": ["es-ES", "fr", "en"], "detectionOrder": ["device", "query", "default"]}
+```
+
+**Test Steps:**
+1. Set browser language to `es-ES` (valid)
+2. Access application with `?locale=fr` (valid)
+3. Verify application uses Spanish (Spain) locale
+
+**Expected Result:** Device detection takes priority over query per configured order
+
+### TC-5: Device First (Failed) → Query Fallback
+**Configuration:**
+```json
+{"enabled": true, "default": "en", "supported": ["es", "fr", "en"], "detectionOrder": ["device", "query", "default"]}
+```
+
+**Test Steps:**
+1. Set browser language to `de-DE` (invalid)
+2. Access application with `?locale=es-MX` (valid - root supported)
+3. Verify application uses Spanish (root) locale
+
+**Expected Result:** Device fails, query used, default skipped
+
+### TC-6: Default Only Detection
+**Configuration:**
+```json
+{"enabled": true, "default": "es", "supported": ["es", "fr", "en"], "detectionOrder": ["default"]}
+```
+
+**Test Steps:**
+1. Set browser language to `fr-FR` (valid)
+2. Access application with `?locale=fr` (valid)
+3. Verify application uses Spanish locale
+
+**Expected Result:** Only default detection used, query and device completely ignored
+
+### TC-7: Default Only with Root Fallback
+**Configuration:**
+```json
+{"enabled": true, "default": "es-MX", "supported": ["es", "en"], "detectionOrder": ["default"]}
+```
+
+**Test Steps:**
+1. Access application with any query parameters
+2. Set any browser language
+3. Verify application uses Spanish (root) locale
+
+**Expected Result:** Default regional falls back to root, query/device ignored
+
+### TC-8: Empty Detection Order (Multilingual Disabled Behavior)
+**Configuration:**
+```json
+{"enabled": true, "default": "es", "supported": ["es", "fr", "en"], "detectionOrder": []}
+```
+
+**Test Steps:**
+1. Set browser language to `es-ES` (valid)
+2. Access application with `?locale=fr` (valid)
+3. Verify application uses English locale
+
+**Expected Result:** Empty detection order = multilingual disabled, always use English
+
+### TC-9: Query Only Configuration
+**Configuration:**
+```json
+{"enabled": true, "default": "fr", "supported": ["es", "fr", "en"], "detectionOrder": ["query"]}
+```
+
+**Test Steps:**
+1. Set browser language to `es-ES` (valid)
+2. Access application without query parameters
+3. Verify application uses English (fallback)
+
+**Expected Result:** Only query detection attempted, device and default skipped
+
+### TC-10: Complex Spanish Variant Handling
+**Configuration:**
+```json
+{"enabled": true, "default": "en", "supported": ["es-ES", "en"], "detectionOrder": ["query", "device", "default"]}
+```
+
+**Test Sequence:**
+1. **Test A:** `?locale=es-MX` + device=`fr-FR` → English applied (es root not supported)
+2. **Test B:** `?locale=es-ES` + device=`fr-FR` → Spanish (Spain) applied (exact match)
+3. **Test C:** No query + device=`es-MX` → English applied (es root not supported)
+
+**Expected Result:** Only exact Spanish variants supported, root fallback not allowed
+
+### TC-11: French Root Language Support
+**Configuration:**
+```json
+{"enabled": true, "default": "en", "supported": ["fr", "en"], "detectionOrder": ["device", "query", "default"]}
+```
+
+**Test Sequence:**
+1. **Test A:** device=`fr-FR` + `?locale=es-ES` → French (root) applied
+2. **Test B:** device=`fr-CA` + no query → French (root) applied
+3. **Test C:** device=`es-ES` + `?locale=fr-FR` → French (root) applied
+
+**Expected Result:** All French regional variants fall back to French root
+
+### TC-12: Mixed English Variant Support
+**Configuration:**
+```json
+{"enabled": true, "default": "en-GB", "supported": ["en-US", "en-GB"], "detectionOrder": ["query", "device", "default"]}
+```
+
+**Test Sequence:**
+1. **Test A:** `?locale=en-GB` → English (UK) applied (exact match)
+2. **Test B:** `?locale=en` → English (UK) applied (query fails, device fails, default succeeds)
+3. **Test C:** device=`en-US` → English (US) applied (exact match)
+4. **Test D:** device=`en-CA` → English (UK) applied (regional not supported)
+
+**Expected Result:** Specific English variants supported, root English not explicitly supported
+
+### TC-13: Platform Limitations with Detection Order
+**Configuration:**
+```json
+{"enabled": true, "default": "fr", "supported": ["es", "fr", "en"], "detectionOrder": ["query", "device", "default"]}
+```
+**Platform Support:** ["en", "es"] (no French)
+
+**Test Steps:**
+1. Set browser language to `fr-FR` (valid for tenant)
+2. Access application without query parameters
+3. Verify application uses Spanish (root) locale
+
+**Expected Result:** Device French fails platform check, falls through to default French which also fails platform check, ultimately uses English
+
+### TC-14: All Detection Sources Valid - Order Respect
+**Configuration:**
+```json
+{"enabled": true, "default": "fr", "supported": ["es", "fr", "en"], "detectionOrder": ["query", "device", "default"]}
+```
+
+**Test Steps:**
+1. Set browser language to `fr-FR` (valid)
+2. Access application with `?locale=es-MX` (valid)
+3. Verify application uses Spanish (root) locale
+
+**Expected Result:** Query takes priority despite device and default being valid
+
+---
+
+## Language Variant Reference
+
+### English Variants:
+- `en` - Root English
+- `en-US` - English (United States)
+- `en-GB` - English (United Kingdom)
+- `en-CA` - English (Canada)
+
+### Spanish Variants:
+- `es` - Root Spanish
+- `es-ES` - Spanish (Spain)
+- `es-MX` - Spanish (Mexico)
+- `es-AR` - Spanish (Argentina)
+
+### French Variants:
+- `fr` - Root French
+- `fr-FR` - French (France)
+- `fr-CA` - French (Canada)
+- `fr-BE` - French (Belgium)
+
+## Detection Order Scenarios Matrix
+
+| Detection Order | Query | Device | Default | Result | Reason |
+|----------------|-------|--------|---------|--------|---------|
+| `["query", "device", "default"]` | `es-ES` | `fr-FR` | `en` | `es-ES` | Query first, valid |
+| `["query", "device", "default"]` | `fr` | `es-ES` | `en` | `fr` | Query first, valid |
+| `["query", "device", "default"]` | `invalid` | `es-MX` | `en` | `es` | Query fail, device root valid |
+| `["query", "device", "default"]` | `invalid` | `invalid` | `fr` | `fr` | Query/device fail, default valid |
+| `["device", "query", "default"]` | `es-ES` | `fr-FR` | `en` | `fr` | Device first, valid |
+| `["device", "query", "default"]` | `es-ES` | `invalid` | `en` | `es-ES` | Device fail, query valid |
+| `["default"]` | `es-ES` | `fr-FR` | `en` | `en` | Default only, valid |
+| `["default"]` | `es-ES` | `fr-FR` | `fr` | `fr` | Default only, valid |
+| `[]` | `es-ES` | `fr-FR` | `fr` | `en` | Empty order = disabled |
+
+## Test Validation Checklist
+
+For each test case, verify:
+- ✅ Detection sources checked in exact configured order
+- ✅ Early termination when valid locale found
+- ✅ Empty detection order forces English fallback
+- ✅ Default-only configuration ignores query/device
+- ✅ Proper handling of English/Spanish/French variants
+- ✅ Root language fallback working within detection sequence
+
+This version focuses specifically on English, Spanish, and French language variants and includes the critical scenarios for default-only and empty detection order configurations.
