@@ -217,25 +217,6 @@
 
 ---
 
-## Language Variant Reference
-
-### English Variants:
-- `en` - Root English
-- `en-US` - English (United States)
-- `en-GB` - English (United Kingdom)
-- `en-CA` - English (Canada)
-
-### Spanish Variants:
-- `es` - Root Spanish
-- `es-ES` - Spanish (Spain)
-- `es-MX` - Spanish (Mexico)
-- `es-AR` - Spanish (Argentina)
-
-### French Variants:
-- `fr` - Root French
-- `fr-FR` - French (France)
-- `fr-CA` - French (Canada)
-- `fr-BE` - French (Belgium)
 
 ## Detection Order Scenarios Matrix
 
@@ -247,8 +228,16 @@
 | `["query", "device", "default"]` | `invalid` | `invalid` | `fr` | `fr` | Query/device fail, default valid |
 | `["device", "query", "default"]` | `es-ES` | `fr-FR` | `en` | `fr` | Device first, valid |
 | `["device", "query", "default"]` | `es-ES` | `invalid` | `en` | `es-ES` | Device fail, query valid |
-| `["default"]` | `es-ES` | `fr-FR` | `en` | `en` | Default only, valid |
+| `["device", "default"]` | `es-ES` | `fr-FR` | `en` | `fr` | Device first, valid |
+| `["device", "default"]` | `es-ES` | `invalid` | `en-AU` | `en-AU` | Device fail, default valid |
+| `["query", "default"]` | `es-ES` | `fr-FR` | `en` | `es-ES` | Query first, valid |
+| `["query", "default"]` | `invalid` | `es-ES` | `en-AU` | `en-AU` | Query fail, default valid |
+| `["query"]` | `es-ES` | `fr-FR` | `en` | `es-ES` | Query only, valid |
+| `["query"]` | `invalid` | `fr-FR` | `en` | `en` | Query only, invalid |
+| `["device"]` | `es-ES` | `fr-FR` | `fr` | `fr` | Device only, valid |
+| `["device"]` | `es-ES` | `invalid` | `fr` | `en` | Device only, invalid |
 | `["default"]` | `es-ES` | `fr-FR` | `fr` | `fr` | Default only, valid |
+| `["default"]` | `es-ES` | `fr-FR` | `invalid` | `en` | Default only, invalid |
 | `[]` | `es-ES` | `fr-FR` | `fr` | `en` | Empty order = disabled |
 
 ## Test Validation Checklist
@@ -261,4 +250,3 @@ For each test case, verify:
 - ✅ Proper handling of English/Spanish/French variants
 - ✅ Root language fallback working within detection sequence
 
-This version focuses specifically on English, Spanish, and French language variants and includes the critical scenarios for default-only and empty detection order configurations.
