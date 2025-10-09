@@ -209,13 +209,3 @@
 | `["default"]` | `es-ES` | `fr-FR` | `invalid` | `en` | Default only, invalid |
 | `[]` | `es-ES` | `fr-FR` | `fr` | `en` | Empty order = disabled |
 
-## Test Validation Checklist
-
-For each test case, verify:
-- ✅ Detection sources checked in exact configured order
-- ✅ Early termination when valid locale found
-- ✅ Empty detection order forces English fallback
-- ✅ Default-only configuration ignores query/device
-- ✅ Proper handling of English/Spanish/French variants
-- ✅ Root language fallback working within detection sequence
-
