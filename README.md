@@ -33,8 +33,8 @@
 ```
 
 **Test Steps:**
-1. Set browser language to `fr-FR` (invalid - root not supported)
-2. Access application with `?locale=fr-FR` (invalid - root not supported)
+1. Set browser language to `de-DE` (invalid - root not supported)
+2. Access application with `?locale=de-DE` (invalid - root not supported)
 3. Verify application uses Spanish locale
 
 **Expected Result:** Both query and device fail, default applied
@@ -81,12 +81,12 @@
 ### TC-7: Default Only with Root Fallback
 **Configuration:**
 ```json
-{"enabled": true, "default": "es-MX", "supported": ["es", "en"], "detectionOrder": ["default"]}
+{"enabled": true, "default": "es-MX", "supported": ["es", "fr", "en"], "detectionOrder": ["default"]}
 ```
 
 **Test Steps:**
-1. Access application with any query parameters
-2. Set any browser language
+1. Set browser language to `fr-FR` (valid)
+2. Access application with `?locale=fr` (valid)
 3. Verify application uses Spanish (root) locale
 
 **Expected Result:** Default regional falls back to root, query/device ignored
@@ -160,16 +160,16 @@
 ### TC-13: Platform Limitations with Detection Order
 **Configuration:**
 ```json
-{"enabled": true, "default": "fr", "supported": ["es", "fr", "en"], "detectionOrder": ["query", "device", "default"]}
+{"enabled": true, "default": "de", "supported": ["es", "de", "en"], "detectionOrder": ["query", "device", "default"]}
 ```
-**Platform Support:** ["en", "es"] (no French)
+**Platform Support:** ["en", "es"] (no Dutch)
 
 **Test Steps:**
-1. Set browser language to `fr-FR` (valid for tenant)
+1. Set browser language to `de-DE` (valid for tenant)
 2. Access application without query parameters
-3. Verify application uses Spanish (root) locale
+3. Verify application uses English (root) locale
 
-**Expected Result:** Device French fails platform check, falls through to default French which also fails platform check, ultimately uses English
+**Expected Result:** Device Dutch fails platform check, falls through to default Dutch which also fails platform check, ultimately uses English
 
 ### TC-14: All Detection Sources Valid - Order Respect
 **Configuration:**
