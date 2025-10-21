@@ -1,4 +1,4 @@
-# Multilingual Copy Verification - KYC App 
+# Multilingual Copy Texts - KYC App 
 
 
 ## Goal: 
