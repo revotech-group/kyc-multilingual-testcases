@@ -119,7 +119,7 @@ All the metadata copy text should fallback to 'en'.
 
 ---
 
-## **TC-09: KYC WEB SDK Timeout Message (Localized)**
+## **TC-09: KYC WEB SDK Timeout Message (Localized if multilingual enabled)**
 **Configuration:**
 KYC web SDK configured with 'timeoutMessage':'SDK was timedout.'.  
 `timeoutMessage` key exists in tenant level locale file (`es.json`).
@@ -134,34 +134,33 @@ The SDK configured timeout will be overwitten by a localised tenant level timeou
 
 ---
 
-## **TC-10: SDK Timeout Message (Missing in JSON)**
+## **TC-10: KYC WEB SDK Timeout Message ( if multilingual disabled)**
 **Configuration:**
-`timeout_message` key removed from `es-ES.json`.  
-Fallback message available in `en.json`.
+KYC web SDK configured with 'timeoutMessage':'SDK was timedout.'.  
 
 **Test Steps:**
-1. Trigger SDK timeout condition.  
-2. Observe message displayed.
+1- Disable multilingual in tenant settings
+1. Launch KYC web SDK 
+1. Simulate network delay exceeding timeout.  
+2. Observe displayed timeout message.
 
 **Expected Result:**  
-Timeout message displayed in English (fallback locale).  
-No raw key name or placeholder text shown.
+The SDK configured timeout will be displayed.
 
 ---
 
-## **TC-11: Primary and Fallback Fonts**
+## **TC-11: Missing Primary Font**
 **Configuration:**
-Primary font: `Open Sans`  
-Fallback font: `Noto Sans`
+Primary font: `Noto Sans`  
+Fallback font: `Open Sans`
 
 **Test Steps:**
-1. Switch between English and Spanish locales.  
-2. Check accented characters (á, é, í, ó, ñ) across devices (Android/iOS).  
-3. Compare text rendering in both fonts.
+1. Remove Noto Sans asset file from KYC app .
+2. Launch KYC app   
+3. Check text rendering font.
 
 **Expected Result:**  
-Localized characters render correctly in both fonts.  
-No missing glyphs, broken accents, or layout shifts.
+The font should fallback to 'Open Sans' since the primary font is not available.
 
 ---
 
@@ -175,18 +174,23 @@ KYC app accessible via standalone email invitation link.
 3. Verify localization behavior.
 
 **Expected Result:**  
-App applies selected locale (e.g., Spanish) correctly.  
-All texts localized without SDK dependency.
+App applies fallback locale (en) correctly.  
+All texts are in english.
 
 ---
 
 ## **TC-13: Mobile Access via KYC Web SDK**
 **Configuration:**
-Access KYC app through mobile browser via Web SDK.  
-Supported locales: `["en", "es", "fr"]`.
+Access KYC native mobile app via Web SDK.  
+"locale": {
+        "enabled": true, 
+        "default": "en", 
+        "supported": ["es", "fr", "en"], 
+        "detectionOrder": ["query", "device", "default"]
+    }
 
 **Test Steps:**
-1. Set device language to Spanish.  
+1. Launch Web SDK in 'es'.  
 2. Launch Web SDK entry point.  
 3. Complete KYC flow and observe text.
 
