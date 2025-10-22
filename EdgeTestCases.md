@@ -104,35 +104,37 @@ All the metadata copy text should fallback to 'en'.
 
 ---
 
-## **TC-08: Multilingual disabled - empty detectionOrder List in tenant settings**
+## **TC-08: Multilingual enabled - No Locale value Provided**
 **Configuration:**
  "locale": {
         "enabled": true, 
-        "default": "en", 
         "supported": ["es", "fr", "en"], 
-        "detectionOrder": []
+        "detectionOrder": [default]
     }
-
-
-
-
-
-## **TC-05: SDK Timeout Message (Localized)**
-**Configuration:**
-SDK configured with timeout = 10 seconds.  
-`timeout_message` key exists in `es-ES.json`.
-
 **Test Steps:**
-1. Simulate network delay exceeding 10 seconds.  
-2. Observe displayed timeout message.
+1. Launch KYC app in a tenant and platform supported locale
 
 **Expected Result:**  
-Timeout message shown in Spanish (e.g., “Tiempo de espera agotado”).  
-Formatting and grammar correct.
+All the metadata copy text should fallback to 'en'.
 
 ---
 
-## **TC-06: SDK Timeout Message (Missing in JSON)**
+## **TC-09: KYC WEB SDK Timeout Message (Localized)**
+**Configuration:**
+KYC web SDK configured with 'timeoutMessage':'SDK was timedout.'.  
+`timeoutMessage` key exists in tenant level locale file (`es.json`).
+
+**Test Steps:**
+1. Launch KYC web SDK in a tenant and platform supported locale ('es')
+1. Simulate network delay exceeding timeout.  
+2. Observe displayed timeout message.
+
+**Expected Result:**  
+The SDK configured timeout will be overwitten by a localised tenant level timeout message.
+
+---
+
+## **TC-10: SDK Timeout Message (Missing in JSON)**
 **Configuration:**
 `timeout_message` key removed from `es-ES.json`.  
 Fallback message available in `en.json`.
@@ -147,7 +149,7 @@ No raw key name or placeholder text shown.
 
 ---
 
-## **TC-07: Primary and Fallback Fonts**
+## **TC-11: Primary and Fallback Fonts**
 **Configuration:**
 Primary font: `Open Sans`  
 Fallback font: `Noto Sans`
@@ -163,23 +165,7 @@ No missing glyphs, broken accents, or layout shifts.
 
 ---
 
-## **TC-08: Deployment in US-Prod Environment**
-**Configuration:**
-Environment: `us-prod`  
-Supported locales: `["en-US", "es-ES", "fr-FR"]`
-
-**Test Steps:**
-1. Deploy build to US production.  
-2. Launch app using `?locale=es-ES`.  
-3. Check text, date, and currency formatting.
-
-**Expected Result:**  
-Spanish localization loads correctly.  
-Regional formatting (dates, currency) follow US standards.
-
----
-
-## **TC-09: Independent Launch via Email Invitation**
+## **TC-12: Independent Launch via Email Invitation**
 **Configuration:**
 KYC app accessible via standalone email invitation link.
 
@@ -194,7 +180,7 @@ All texts localized without SDK dependency.
 
 ---
 
-## **TC-10: Mobile Access via KYC Web SDK**
+## **TC-13: Mobile Access via KYC Web SDK**
 **Configuration:**
 Access KYC app through mobile browser via Web SDK.  
 Supported locales: `["en", "es", "fr"]`.
