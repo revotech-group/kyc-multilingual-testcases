@@ -1,4 +1,4 @@
-# Multilingual Support - Test Cases 
+# Multilingual Detection Logic - Test Cases 
 
 ### TC-1: Query First Priority (Successful)
 **Configuration:**
