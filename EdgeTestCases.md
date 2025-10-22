@@ -5,17 +5,6 @@
 This document outlines additional multilingual and integration test scenarios for locale handling, KYC SDK and KYC app behavior.
 
 
-## General Preconditions:
-
-1. Multilingual feature enabled. 
-
-2. Pick one locale (e.g., es)
-
-
----
-
-## Locale Sweep – Spanish (es)
-
 ## **TC-01: CORS Configuration for Locale JSON**
 **Configuration:**
 Locale JSON files hosted on CDN with CORS enabled.
@@ -30,61 +19,103 @@ All locale files load successfully without CORS errors. Localization applies cor
 
 ---
 
-## **TC-02: Missing Locale JSON Fallback**
+## **TC-02: Missing Locale JSON Fallback (en)**
 **Configuration:**
-`en.json` intentionally removed from server.  
+`en.json` intentionally removed from kyc-app (https://cdn.test.truuth.id/locales/kyc-app/v1/) and/or kyc-websdk (https://cdn.test.truuth.id/locales/kyc-websdk/v1/) folders of platform locales repo .  
 
 **Test Steps:**
-1. Launch application with locale:'en'  
+1. Launch KYC web SDK / web app in 'en'   
 2. Verify behavior when 'en.json' locale file is unavailable.
 
 **Expected Result:**  
-String key placeholders (e.g. welcome_page_title) or blank placeholders appear.
+String key placeholders (e.g. welcome_page_title) or blank placeholders appear in KYC app and/or KYC web SDK.
 
 ---
 
-## **TC-03: Missing Tenant IP Framework related Locale Files**
+## **TC-03: Missing Tenant level Locale Files**
 **Configuration:**
-`en.json` intentionally removed from server.  
+`es.json` intentionally removed from tenant locales repo.  
 
 **Test Steps:**
-1. Launch application with 'locale':'es' as a tenant supported locale
-2. Verify behavior when 'en.json' locale file is unavailable.
+1. Launch KYC web SDK / app in 'es' using the defected tenant
+2. Verify behavior when 'es.json' tenant locale file is unavailable.
 
 **Expected Result:**  
-String key placeholders (e.g. welcome_page_title) or blank placeholders appear.
+All the dynamic copy texts should fallback to 'en'.
 
 ---
 
-## **TC-03: Missing Fallback Locale and Default**
+## **TC-04: Missing Platform Level Metadata Locale Files**
 **Configuration:**
-`es-ES.json` and `en.json` both unavailable.  
-Default locale points to missing file.
+`es.json` intentionally removed from document-metadata folder (https://cdn.test.truuth.id/locales/document-metadata/v1/)
 
 **Test Steps:**
-1. Launch application with `?locale=es-ES`.  
-2. Observe on-screen text and console behavior.
+1. Launch KYC app in a tenant and platform supported locale like 'es'
+2. Verify behavior when 'es.json' metadata locale file is unavailable.
 
 **Expected Result:**  
-Application loads safely with hardcoded or placeholder defaults.  
-User experience remains intact; error logged internally.
+All the metadata copy text should fallback to 'en'.
 
 ---
 
-## **TC-04: Missing Tenant Metadata**
+## **TC-05: Multilingual disabled - No Locale object in tenant setting**
 **Configuration:**
-Tenant-level metadata file (`metadata.json`) removed.  
-Locale detection enabled.
+No locale object in tenant setting
 
 **Test Steps:**
-1. Launch application with a tenant URL.  
-2. Observe localization initialization flow.
+1. Launch KYC app in a tenant and platform supported locale
 
 **Expected Result:**  
-App initializes with default metadata and locale.  
-No crash or “undefined” values displayed.
+All the metadata copy text should fallback to 'en'.
 
 ---
+
+## **TC-06: Multilingual disabled - Locale object disabled in tenant settings**
+**Configuration:**
+ "locale": {
+        "enabled": false, 
+        "default": "en", 
+        "supported": ["es", "fr", "en"], 
+        "detectionOrder": ["query", "device", "default"]
+    }
+
+**Test Steps:**
+1. Launch KYC app in a tenant and platform supported locale
+
+**Expected Result:**  
+All the metadata copy text should fallback to 'en'.
+
+---
+
+## **TC-07: Multilingual disabled - empty detectionOrder List in tenant settings**
+**Configuration:**
+ "locale": {
+        "enabled": true, 
+        "default": "en", 
+        "supported": ["es", "fr", "en"], 
+        "detectionOrder": []
+    }
+
+**Test Steps:**
+1. Launch KYC app in a tenant and platform supported locale
+
+**Expected Result:**  
+All the metadata copy text should fallback to 'en'.
+
+---
+
+## **TC-08: Multilingual disabled - empty detectionOrder List in tenant settings**
+**Configuration:**
+ "locale": {
+        "enabled": true, 
+        "default": "en", 
+        "supported": ["es", "fr", "en"], 
+        "detectionOrder": []
+    }
+
+
+
+
 
 ## **TC-05: SDK Timeout Message (Localized)**
 **Configuration:**
