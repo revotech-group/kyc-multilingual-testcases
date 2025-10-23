@@ -19,31 +19,67 @@ All locale files load successfully without CORS errors. Localization applies cor
 
 ---
 
-## **TC-02: Missing Locale JSON Fallback (en)**
+## **TC-02: Missing fallback resource file (en) - KYC web SDK**
 **Configuration:**
 en.json intentionally removed from:
-- kyc-app → https://cdn.test.truuth.id/locales/kyc-app/v1/
-- kyc-websdk → https://cdn.test.truuth.id/locales/kyc-websdk/v1/ 
+- kyc-websdk → https://cdn.test.truuth.id/locales/kyc-websdk/v1/
+  
+{"enabled": true, "default": "en", "supported": ["en"], "detectionOrder": ["default"]}
 
 **Test Steps:**
-1. Launch the KYC Web SDK or KYC Web App in English (en).
-2. Verify behavior when the en.json file is unavailable.
+1. Launch the KYC Web SDK in English (en).
+2. Verify behavior when the kyc web sdk en.json file is unavailable.
 
 **Expected Result:**  
-String key placeholders (e.g., welcome_page_title) or blank placeholders appear in the KYC App and/or KYC Web SDK.
+String key placeholders (e.g., invitee_details_page_title) appear in the KYC Web SDK copy texts.
 
 ---
 
-## **TC-03: Missing Tenant-Level Locale Files**
+## **TC-03: Missing fallback resource file (en) - KYC app**
 **Configuration:**
-es.json intentionally removed from the tenant locales repository.  
+en.json intentionally removed from:
+- kyc-app → https://cdn.test.truuth.id/locales/kyc-app/v1/
+  
+{"enabled": true, "default": "en", "supported": ["en"], "detectionOrder": ["default"]}
 
 **Test Steps:**
-1. Launch the KYC Web SDK or KYC App in Spanish (es) using the affected tenant.
+1. Launch the KYC app in English (en).
+2. Verify behavior when the kyc app en.json file is unavailable.
+
+**Expected Result:**  
+String key or blank placeholders (e.g., invitee_details_page_title) appear in the KYC app copy texts.
+
+---
+
+## **TC-04: Missing fallback resource file (en) - Liveness Web SDK**
+**Configuration:**
+en.json intentionally removed from:
+- liveness-websdk → https://cdn.test.truuth.id/locales/liveness-websdk/v1/
+  
+{"enabled": true, "default": "en", "supported": ["en"], "detectionOrder": ["default"]}
+
+**Test Steps:**
+1. Launch KYC journey in English (en).
+2. Verify behavior when the liveness en.json file is unavailable.
+
+**Expected Result:**  
+String key placeholders (e.g., prompt_instruction) appear in the liveness copy texts.
+
+---
+
+## **TC-05: Missing Tenant-Level Locale Files**
+**Configuration:**
+en.json intentionally removed from:
+- liveness-websdk → https://cdn.test.truuth.id/locales/liveness-websdk/v1/
+  
+{"enabled": true, "default": "en", "supported": ["en, es"], "detectionOrder": ["query","default"]} 
+
+**Test Steps:**
+1. Launch the KYC Web SDK in Spanish (es) using the affected tenant.
 2. Verify behavior when the tenant-level es.json file is unavailable.
 
 **Expected Result:**  
-All dynamic copy texts fallback to English (en).
+All IP framework copy texts fallback to English (en) coming from the backend .
 
 ---
 
