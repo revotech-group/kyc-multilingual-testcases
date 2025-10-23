@@ -204,3 +204,15 @@ Access KYC native mobile app via Web SDK.
 **Expected Result:**  
 All SDK and App texts display in Spanish.
 Localization remains consistent with the native mobile experience.
+
+## **TC-14: Network disconnection**
+**Configuration:**
+Multilingual enabled.
+
+**Test Steps:**
+1. Launch the Web SDK/App in Spanish (es).
+2. Simulate network disconnection in the middle of the journey.
+3. Observe localization across SDK / App.
+
+**Expected Result:**  
+All SDK/ App static texts display in Spanish unless the journey blocked due to the connection issue.
