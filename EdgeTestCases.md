@@ -216,3 +216,14 @@ Multilingual enabled.
 
 **Expected Result:**  
 All SDK/ App static texts display in Spanish unless the journey blocked due to the connection issue.
+
+## **TC-15: Backward Comaptibility in KYC mobile app**
+**Configuration:**
+Install the old KYC mobile app version from production.
+
+**Test Steps:**
+1. Launch the Web SDK/App with multilingual disabled.
+3. Observe the end-to-end journey.
+
+**Expected Result:**  
+The full journey should work with no issue.
