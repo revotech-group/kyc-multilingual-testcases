@@ -69,8 +69,8 @@ String key placeholders (e.g., prompt_instruction) appear in the liveness copy t
 
 ## **TC-05: Missing Tenant-Level Locale Files**
 **Configuration:**
-en.json intentionally removed from:
-- tenant-locales → https://cdn.test.truuth.id/kyc/welcomeemailkyc/locales/es.json
+es.json intentionally removed from:
+- tenant-locales → https://static.au.test.truuth.id/kyc/welcomeemailkyc/locales/es.json
   
 {"enabled": true, "default": "es", "supported": [es"], "detectionOrder": ["default"]} 
 
@@ -85,7 +85,7 @@ All IP framework copy texts fallback to English (en) coming from the backend .
 
 ## **TC-05: Missing Meta data Locale Files**
 **Configuration:**
-en.json intentionally removed from:
+es.json intentionally removed from:
 - document-metadata → https://cdn.test.truuth.id/locales/document-metadata/v1/
   
 {"enabled": true, "default": "es", "supported": [es"], "detectionOrder": ["default"]} 
