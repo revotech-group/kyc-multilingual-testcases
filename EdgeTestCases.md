@@ -70,9 +70,9 @@ String key placeholders (e.g., prompt_instruction) appear in the liveness copy t
 ## **TC-05: Missing Tenant-Level Locale Files**
 **Configuration:**
 en.json intentionally removed from:
-- liveness-websdk → https://cdn.test.truuth.id/locales/liveness-websdk/v1/
+- tenant-locales → https://cdn.test.truuth.id/kyc/welcomeemailkyc/locales/es.json
   
-{"enabled": true, "default": "en", "supported": ["en, es"], "detectionOrder": ["query","default"]} 
+{"enabled": true, "default": "es", "supported": [es"], "detectionOrder": ["default"]} 
 
 **Test Steps:**
 1. Launch the KYC Web SDK in Spanish (es) using the affected tenant.
@@ -83,16 +83,19 @@ All IP framework copy texts fallback to English (en) coming from the backend .
 
 ---
 
-## **TC-04: Missing Platform-Level Metadata Locale Files**
+## **TC-05: Missing Meta data Locale Files**
 **Configuration:**
-es.json intentionally removed from document-metadata → https://cdn.test.truuth.id/locales/document-metadata/v1/
+en.json intentionally removed from:
+- document-metadata → https://cdn.test.truuth.id/locales/document-metadata/v1/
+  
+{"enabled": true, "default": "es", "supported": [es"], "detectionOrder": ["default"]} 
 
 **Test Steps:**
-1. Launch the KYC App in a supported locale such as Spanish (es).
-2. Verify behavior when the metadata-level es.json file is unavailable.
+1. Launch the KYC Web SDK in Spanish (es) using the affected tenant.
+2. Verify behavior when the metadata es.json file is unavailable.
 
 **Expected Result:**  
-All metadata copy texts fallback to English (en).
+All metadata copy texts in KYC review edit fallback to English (en) coming from the backend .
 
 ---
 
@@ -209,16 +212,17 @@ Text should fallback to Open Sans when the primary font is unavailable.
 
 ## **TC-12: Independent Launch via Email Invitation**
 **Configuration:**
-KYC App accessible via standalone email invitation link (not embedded in SDK).
+KYC App accessible via standalone email invitation link (not embedded in SDK) with no locale as the query.
+{"enabled": true, "default": "es", "supported": ["es"], "detectionOrder": ["query", "device", "default"]}
 
 **Test Steps:**
 1. Open the email invitation link.
 2. Launch the KYC App directly.
-3. Verify localization behavior
+3. Verify localization behavior.
 
 **Expected Result:**  
-The app applies the fallback locale (en) correctly.
-All texts appear in English.
+The app applies the fallback locale (es) correctly.
+All texts appear in Spanish.
 
 ---
 
