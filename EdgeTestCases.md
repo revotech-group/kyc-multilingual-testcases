@@ -83,7 +83,7 @@ All IP framework copy texts fallback to English (en) coming from the backend .
 
 ---
 
-## **TC-05: Missing Meta data Locale Files**
+## **TC-06: Missing Meta data Locale Files**
 **Configuration:**
 es.json intentionally removed from:
 - document-metadata → https://cdn.test.truuth.id/locales/document-metadata/v1/
@@ -99,72 +99,35 @@ All metadata copy texts in KYC review edit fallback to English (en) coming from 
 
 ---
 
-## **TC-05: Multilingual Disabled – No Locale Object in Tenant Settings**
+## **TC-07: Multilingual Disabled – No Locale Object in Tenant Settings**
 **Configuration:**
 Tenant configuration does not include a locale object.
 
 **Test Steps:**
-1. Launch the KYC App in a supported locale.
+1. Launch the KYC web SDK with optional locale setting.
 2. Observe language behavior.
-3. 
+   
 **Expected Result:**  
-All the metadata copy texts should fallback to 'en'.
+The UI text should be in 'en' for the whole journy.
 
 ---
 
-## **TC-06: Multilingual Disabled – Locale Object Present but Disabled**
+## **TC-08: Multilingual Disabled – Locale Object Present but Disabled**
 **Configuration:**
- "locale": {
-        "enabled": false, 
-        "default": "en", 
-        "supported": ["es", "fr", "en"], 
-        "detectionOrder": ["query", "device", "default"]
-    }
+Tenant configuration includes a locale object but disabled.
+
+{"enabled": true, "default": "es", "supported": [es"], "detectionOrder": ["default"]} 
 
 **Test Steps:**
-1. Launch the KYC App in any supported locale.
-2. Observe text and localization behavior.
-
+1. Launch the KYC web SDK with optional locale setting.
+2. Observe language behavior.
+   
 **Expected Result:**  
-All texts fallback to English (en).
+The UI text should be in 'en' for the whole journy.
 
 ---
 
-## **TC-07: Multilingual Enabled – Empty Detection Order**
-**Configuration:**
- "locale": {
-        "enabled": true, 
-        "default": "en", 
-        "supported": ["es", "fr", "en"], 
-        "detectionOrder": []
-    }
-
-**Test Steps:**
-1. Launch the KYC App in any supported locale.
-2. Observe which locale is applied.
-
-**Expected Result:**  
-All texts fallback to English (en).
-
----
-
-## **TC-08: Multilingual Enabled – No Detection Value Provided**
-**Configuration:**
- "locale": {
-        "enabled": true, 
-        "supported": ["es", "fr", "en"], 
-        "detectionOrder": [default]
-    }
-**Test Steps:**
-1. Launch the KYC App in any supported locale.
-2. Observe which locale is applied.
-
-**Expected Result:**  
-All texts fallback to English (en).
-
----
-
-## **KYC Web SDK Timeout Message (Multilingual Enabled)**
+## **TC-08: KYC Web SDK Timeout Message (Multilingual Enabled)**
 **Configuration:**
 timeoutMessage: "SDK was timed out." configured in SDK.
 "timeoutMessage" key exists in tenant-level locale file (es.json).
@@ -179,7 +142,7 @@ The configured SDK timeout message is overridden by the localized tenant-level m
 
 ---
 
-## **TC-10: KYC Web SDK Timeout Message (Multilingual Disabled)**
+## **TC-09: KYC Web SDK Timeout Message (Multilingual Disabled)**
 **Configuration:**
 - Multilingual disabled in tenant settings.
 - timeoutMessage: "SDK was timed out." configured in SDK.  
@@ -195,7 +158,7 @@ The SDK-configured timeout message is displayed as-is.
 
 ---
 
-## **TC-11: Missing Primary Font**
+## **TC-10: Missing Primary Font**
 **Configuration:**
 Primary font: `Noto Sans`  
 Fallback font: `Open Sans`
@@ -210,7 +173,7 @@ Text should fallback to Open Sans when the primary font is unavailable.
 
 ---
 
-## **TC-12: Independent Launch via Email Invitation**
+## **TC-11: Independent Launch via Email Invitation**
 **Configuration:**
 KYC App accessible via standalone email invitation link (not embedded in SDK) with no locale as the query.
 {"enabled": true, "default": "es", "supported": ["es"], "detectionOrder": ["query", "device", "default"]}
@@ -226,7 +189,7 @@ All texts appear in Spanish.
 
 ---
 
-## **TC-13: Mobile Access via KYC Web SDK**
+## **TC-12: Mobile Access via KYC Web SDK**
 **Configuration:**
 Access KYC native mobile app via Web SDK.
 "locale": {
@@ -245,7 +208,7 @@ Access KYC native mobile app via Web SDK.
 All SDK and App texts display in Spanish.
 Localization remains consistent with the native mobile experience.
 
-## **TC-14: Network disconnection**
+## **TC-13: Network disconnection**
 **Configuration:**
 Multilingual enabled.
 
@@ -257,7 +220,7 @@ Multilingual enabled.
 **Expected Result:**  
 All SDK/ App static texts display in Spanish unless the journey blocked due to the connection issue.
 
-## **TC-15: Backward Comaptibility in KYC mobile app**
+## **TC-14: Backward Comaptibility in KYC mobile app**
 **Configuration:**
 Install the old KYC mobile app version from production.
 
