@@ -127,7 +127,7 @@ The UI text should be in 'en' for the whole journy.
 
 ---
 
-## **TC-08: KYC Web SDK Timeout Message (Multilingual Enabled)**
+## **TC-09: KYC Web SDK Timeout Message (Multilingual Enabled)**
 **Configuration:**
 timeoutMessage: "SDK was timed out." configured in SDK.
 "timeoutMessage" key exists in tenant-level locale file (es.json).
@@ -142,7 +142,7 @@ The configured SDK timeout message is overridden by the localized tenant-level m
 
 ---
 
-## **TC-09: KYC Web SDK Timeout Message (Multilingual Disabled)**
+## **TC-10: KYC Web SDK Timeout Message (Multilingual Disabled)**
 **Configuration:**
 - Multilingual disabled in tenant settings.
 - timeoutMessage: "SDK was timed out." configured in SDK.  
@@ -158,7 +158,7 @@ The SDK-configured timeout message is displayed as-is.
 
 ---
 
-## **TC-10: Missing Primary Font**
+## **TC-11: Missing Primary Font**
 **Configuration:**
 Primary font: `Noto Sans`  
 Fallback font: `Open Sans`
@@ -173,7 +173,7 @@ Text should fallback to Open Sans when the primary font is unavailable.
 
 ---
 
-## **TC-11: Independent Launch via Email Invitation**
+## **TC-12: Independent Launch via Email Invitation**
 **Configuration:**
 KYC App accessible via standalone email invitation link (not embedded in SDK) with no locale as the query.
 {"enabled": true, "default": "es", "supported": ["es"], "detectionOrder": ["query", "device", "default"]}
@@ -189,7 +189,7 @@ All texts appear in Spanish.
 
 ---
 
-## **TC-12: Mobile Access via KYC Web SDK**
+## **TC-13: Mobile Access via KYC Web SDK**
 **Configuration:**
 Access KYC native mobile app via Web SDK.
 "locale": {
@@ -208,7 +208,7 @@ Access KYC native mobile app via Web SDK.
 All SDK and App texts display in Spanish.
 Localization remains consistent with the native mobile experience.
 
-## **TC-13: Network disconnection**
+## **TC-14: Network disconnection**
 **Configuration:**
 Multilingual enabled.
 
@@ -220,7 +220,7 @@ Multilingual enabled.
 **Expected Result:**  
 All SDK/ App static texts display in Spanish unless the journey blocked due to the connection issue.
 
-## **TC-14: Backward Comaptibility in KYC mobile app**
+## **TC-15: Backward Comaptibility in KYC mobile app**
 **Configuration:**
 Install the old KYC mobile app version from production.
 
