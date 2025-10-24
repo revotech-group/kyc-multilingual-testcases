@@ -127,10 +127,12 @@ The UI text should be in 'en' for the whole journy.
 
 ---
 
-## **TC-09: KYC Web SDK Timeout Message (Multilingual Enabled)**
+## **TC-09: KYC Web SDK Timeout Message - message localised in tenant settings**
 **Configuration:**
 timeoutMessage: "SDK was timed out." configured in SDK.
 "timeoutMessage" key exists in tenant-level locale file (es.json).
+
+{"enabled": false, "default": "es", "supported": [es"], "detectionOrder": ["default"]} 
 
 **Test Steps:**
 1. Launch the KYC Web SDK in Spanish (es).
@@ -142,38 +144,24 @@ The configured SDK timeout message is overridden by the localized tenant-level m
 
 ---
 
-## **TC-10: KYC Web SDK Timeout Message (Multilingual Disabled)**
+## **TC-10: KYC Web SDK Timeout Message - No localisation in tenant settings**
 **Configuration:**
-- Multilingual disabled in tenant settings.
-- timeoutMessage: "SDK was timed out." configured in SDK.  
+timeoutMessage: "SDK was timed out." configured in SDK.
+No "timeoutMessage" has been set in tenant-level locale file (es.json).
+
+{"enabled": false, "default": "es", "supported": [es"], "detectionOrder": ["default"]} 
 
 **Test Steps:**
-1. Disable multilingual in tenant settings.
-2. Launch the KYC Web SDK.
-3. Simulate a network delay exceeding the timeout.
-4. Observe the displayed timeout message.
-   
+1. Launch the KYC Web SDK in Spanish (es).
+2. Simulate a network delay exceeding the timeout.
+3. Observe the displayed timeout message.
+
 **Expected Result:**  
 The SDK-configured timeout message is displayed as-is.
 
 ---
 
-## **TC-11: Missing Primary Font**
-**Configuration:**
-Primary font: `Noto Sans`  
-Fallback font: `Open Sans`
-
-**Test Steps:**
-1. Remove the Noto Sans font asset from the KYC App.
-2. Launch the KYC App.
-3. Observe the text rendering font.
-
-**Expected Result:**  
-Text should fallback to Open Sans when the primary font is unavailable.
-
----
-
-## **TC-12: Independent Launch via Email Invitation**
+## **TC-11: Independent Launch via Email Invitation**
 **Configuration:**
 KYC App accessible via standalone email invitation link (not embedded in SDK) with no locale as the query.
 {"enabled": true, "default": "es", "supported": ["es"], "detectionOrder": ["query", "device", "default"]}
@@ -189,13 +177,13 @@ All texts appear in Spanish.
 
 ---
 
-## **TC-13: Mobile Access via KYC Web SDK**
+## **TC-12: Mobile Access via KYC Web SDK**
 **Configuration:**
 Access KYC native mobile app via Web SDK.
 "locale": {
         "enabled": true, 
         "default": "en", 
-        "supported": ["es", "fr", "en"], 
+        "supported": ["es", "en"], 
         "detectionOrder": ["query", "device", "default"]
     }
 
@@ -208,9 +196,8 @@ Access KYC native mobile app via Web SDK.
 All SDK and App texts display in Spanish.
 Localization remains consistent with the native mobile experience.
 
-## **TC-14: Network disconnection**
+## **TC-13: Network disconnection**
 **Configuration:**
-Multilingual enabled.
 
 **Test Steps:**
 1. Launch the Web SDK/App in Spanish (es).
@@ -220,7 +207,7 @@ Multilingual enabled.
 **Expected Result:**  
 All SDK/ App static texts display in Spanish unless the journey blocked due to the connection issue.
 
-## **TC-15: Backward Comaptibility in KYC mobile app**
+## **TC-14: Backward Comaptibility in KYC mobile app**
 **Configuration:**
 Install the old KYC mobile app version from production.
 
